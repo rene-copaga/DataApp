@@ -41,8 +41,10 @@ namespace DataApp.Models
 
         public void CreateProduct(Product newProduct)
         {
-            Console.WriteLine("CreateProduct: "
-            + JsonConvert.SerializeObject(newProduct));
+            newProduct.Id = 0;
+            context.Products.Add(newProduct);
+            context.SaveChanges();
+            Console.WriteLine($"New Key: {newProduct.Id}");
         }
 
         public void UpdateProduct(Product changedProduct)
