@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DataApp.Models
@@ -12,11 +14,29 @@ namespace DataApp.Models
             context = ctx;
         }
 
-        //public IQueryable<Product> Products => context.Products;
-
-        public IEnumerable<Product> GetProductsByPrice(decimal minPrice)
+        public Product GetProduct(long id)
         {
-            return context.Products.Where(p => p.Price >= minPrice).ToArray();
+            Console.WriteLine("GetProduct: " + id);
+            return new Product();
+        }
+        public IEnumerable<Product> GetAllProducts()
+        {
+            Console.WriteLine("GetAllProducts");
+            return context.Products;
+        }
+        public void CreateProduct(Product newProduct)
+        {
+            Console.WriteLine("CreateProduct: "
+            + JsonConvert.SerializeObject(newProduct));
+        }
+        public void UpdateProduct(Product changedProduct)
+        {
+            Console.WriteLine("UpdateProduct : "
+            + JsonConvert.SerializeObject(changedProduct));
+        }
+        public void DeleteProduct(long id)
+        {
+            Console.WriteLine("DeleteProduct: " + id);
         }
     }
 }
