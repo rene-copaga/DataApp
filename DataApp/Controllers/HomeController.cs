@@ -41,9 +41,9 @@ namespace DataApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Product product)
+        public IActionResult Edit(Product product, Product original)
         {
-            repository.UpdateProduct(product);
+            repository.UpdateProduct(product, original);
             return RedirectToAction(nameof(Index));
         }
 

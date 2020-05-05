@@ -13,7 +13,7 @@ namespace DataApp.Models
 
         void CreateProduct(Product newProduct);
 
-        void UpdateProduct(Product changedProduct);
+        void UpdateProduct(Product changedProduct, Product originalProduct = null);
 
         void DeleteProduct(long id);
     }

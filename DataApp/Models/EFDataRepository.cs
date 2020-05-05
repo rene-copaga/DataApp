@@ -48,9 +48,17 @@ namespace DataApp.Models
             Console.WriteLine($"New Key: {newProduct.Id}");
         }
 
-        public void UpdateProduct(Product changedProduct)
+        public void UpdateProduct(Product changedProduct, Product originalProduct = null)
         {
-            Product originalProduct = context.Products.Find(changedProduct.Id);
+            if (originalProduct == null)
+            {
+                originalProduct = context.Products.Find(changedProduct.Id);
+            }
+            else
+            {
+                context.Products.Attach(originalProduct);
+            }
+            
             originalProduct.Name = changedProduct.Name;
             originalProduct.Category = changedProduct.Category;
             originalProduct.Price = changedProduct.Price;
