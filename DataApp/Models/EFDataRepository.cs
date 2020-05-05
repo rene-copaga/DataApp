@@ -76,14 +76,10 @@ namespace DataApp.Models
             context.SaveChanges();
         }
 
-        private bool WriteLine(string v)
-        {
-            throw new NotImplementedException();
-        }
-
         public void DeleteProduct(long id)
         {
-            Console.WriteLine("DeleteProduct: " + id);
+            context.Products.Remove(new Product { Id = id });
+            context.SaveChanges();
         }
     }
 }
