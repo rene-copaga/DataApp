@@ -11,9 +11,10 @@ using System;
 namespace DataApp.Migrations
 {
     [DbContext(typeof(EFDatabaseContext))]
-    partial class EFDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200505205840_AddColorProperty")]
+    partial class AddColorProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,8 +29,6 @@ namespace DataApp.Migrations
                     b.Property<string>("Category");
 
                     b.Property<int>("Color");
-
-                    b.Property<bool>("InStock");
 
                     b.Property<string>("Name");
 
