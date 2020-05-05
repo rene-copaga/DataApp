@@ -13,9 +13,12 @@ namespace DataApp.Controllers
             repository = repo;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string category = null, decimal? price = null)
         {
-            return View(repository.GetAllProducts());
+            var products = repository.GetFilteredProducts(category, price);
+            ViewBag.category = category;
+            ViewBag.price = price;
+            return View(products);
         }
 
         public IActionResult Create()
