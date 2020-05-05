@@ -4,8 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
 namespace DataApp.Migrations
@@ -26,10 +24,6 @@ namespace DataApp.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Category");
-
-                    b.Property<int>("Color");
-
-                    b.Property<bool>("InStock");
 
                     b.Property<string>("Name");
 
