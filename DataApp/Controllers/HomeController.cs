@@ -1,20 +1,23 @@
 ﻿using DataApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace DataApp.Controllers
 {
     public class HomeController : Controller
     {
-        private EFDatabaseContext context;
+        private IDataRepository repository;
 
-        public HomeController(EFDatabaseContext ctx)
+        public HomeController(IDataRepository repo)
         {
-            context = ctx;
+            repository = repo;
         }
 
         public IActionResult Index()
         {
-            return View(context.Products);
+            var products = repository.GetProductsByPrice(25);
+            ViewBag.ProductCount = products.Count();
+            return View(products);
         }
     }
 }
