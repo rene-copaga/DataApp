@@ -49,8 +49,8 @@ namespace DataApp.Models
 
         public void UpdateProduct(Product changedProduct)
         {
-            Console.WriteLine("UpdateProduct : "
-            + JsonConvert.SerializeObject(changedProduct));
+            context.Products.Update(changedProduct);
+            context.SaveChanges();
         }
 
         public void DeleteProduct(long id)
