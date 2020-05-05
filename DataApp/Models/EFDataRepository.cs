@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,8 +50,27 @@ namespace DataApp.Models
 
         public void UpdateProduct(Product changedProduct)
         {
-            context.Products.Update(changedProduct);
+            Product originalProduct = context.Products.Find(changedProduct.Id);
+            originalProduct.Name = changedProduct.Name;
+            originalProduct.Category = changedProduct.Category;
+            originalProduct.Price = changedProduct.Price;
+
+            EntityEntry entry = context.Entry(originalProduct);
+            Console.WriteLine($"Entity State: {entry.State}");
+            foreach (string p_name in new string[]
+                    { "Name", "Category", "Price" })
+            {
+                Console.WriteLine($"{p_name} - Old: " +
+                    $"{entry.OriginalValues[p_name]}, " +
+                    $"New: {entry.CurrentValues[p_name]}");
+            }
+
             context.SaveChanges();
+        }
+
+        private bool WriteLine(string v)
+        {
+            throw new NotImplementedException();
         }
 
         public void DeleteProduct(long id)
