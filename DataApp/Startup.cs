@@ -33,7 +33,7 @@ namespace DataApp
 
             services.AddTransient<IDataRepository, EFDataRepository>();
             services.AddTransient<ICustomerRepository, EFCustomerRepository>();
-
+            services.AddTransient<MigrationsManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
