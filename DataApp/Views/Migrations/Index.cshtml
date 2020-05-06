@@ -51,3 +51,11 @@
         <button class="btn btn-primary m-1">Migrate</button>
     </form>
 </div>
+
+<div class="m-1 p-2">
+    <form method="post">
+        <input type="hidden" name="context" value="@ViewBag.Context" />
+        <button class="btn btn-primary" asp-action="Seed">Seed Database</button>
+        <button class="btn btn-danger" asp-action="Clear">Clear Database</button>
+    </form>
+</div>

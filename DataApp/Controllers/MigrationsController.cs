@@ -27,5 +27,21 @@ namespace DataApp.Controllers
             manager.Migrate(context, migration);
             return RedirectToAction(nameof(Index), new { context = context });
         }
+
+        [HttpPost]
+        public IActionResult Seed(string context)
+        {
+            manager.ContextName = context;
+            SeedData.Seed(manager.Context);
+            return RedirectToAction(nameof(Index), new { context = context });
+        }
+
+        [HttpPost]
+        public IActionResult Clear(string context)
+        {
+            manager.ContextName = context;
+            SeedData.ClearData(manager.Context);
+            return RedirectToAction(nameof(Index), new { context = context });
+        }
     }
 }
