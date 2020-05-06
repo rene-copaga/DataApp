@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace DataApp.Migrations
+namespace DataApp.Migrations.EFCustomer
 {
-    [DbContext(typeof(EFDatabaseContext))]
-    partial class EFDatabaseContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(EFCustomerContext))]
+    partial class EFCustomerContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -20,24 +20,20 @@ namespace DataApp.Migrations
                 .HasAnnotation("ProductVersion", "2.0.3-rtm-10026")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DataApp.Models.Product", b =>
+            modelBuilder.Entity("DataApp.Models.Customer", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Category");
+                    b.Property<string>("City");
 
-                    b.Property<int>("Color");
-
-                    b.Property<bool>("InStock");
+                    b.Property<string>("Country");
 
                     b.Property<string>("Name");
 
-                    b.Property<decimal>("Price");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Customers");
                 });
 #pragma warning restore 612, 618
         }
