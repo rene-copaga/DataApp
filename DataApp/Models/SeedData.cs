@@ -38,25 +38,51 @@ namespace DataApp.Models
             context.SaveChanges();
         }
 
-        private static Product[] Products = {
-            new Product { Name = "Kayak", Category = "Watersports",
-            Price = 275, Color = Colors.Green, InStock = true },
-            new Product { Name = "Lifejacket", Category = "Watersports",
-            Price = 48.95m, Color = Colors.Red, InStock = true },
-            new Product { Name = "Soccer Ball", Category = "Soccer",
-            Price = 19.50m, Color = Colors.Blue, InStock = true },
-            new Product { Name = "Corner Flags", Category = "Soccer",
-            Price = 34.95m, Color = Colors.Green, InStock = true },
-            new Product { Name = "Stadium", Category = "Soccer",
-            Price = 79500, Color = Colors.Red, InStock = true },
-            new Product { Name = "Thinking Cap", Category = "Chess",
-            Price = 16, Color = Colors.Blue, InStock = true },
-            new Product { Name = "Unsteady Chair", Category = "Chess",
-            Price = 29.95m, Color = Colors.Green, InStock = true },
-            new Product { Name = "Human Chess Board", Category = "Chess",
-            Price = 75, Color = Colors.Red, InStock = true },
-            new Product { Name = "Bling-Bling King", Category = "Chess",
-            Price = 1200, Color = Colors.Blue, InStock = true }};
+        private static Product[] Products
+        {
+            get
+            {
+                Product[] products = new Product[] {
+                    new Product { Name = "Kayak", Category = "Watersports",
+                        Price = 275, Color = Colors.Green, InStock = true },
+                    new Product { Name = "Lifejacket", Category = "Watersports",
+                        Price = 48.95m, Color = Colors.Red, InStock = true },
+                    new Product { Name = "Soccer Ball", Category = "Soccer",
+                        Price = 19.50m, Color = Colors.Blue, InStock = true },
+                    new Product { Name = "Corner Flags", Category = "Soccer",
+                        Price = 34.95m, Color = Colors.Green, InStock = true },
+                    new Product { Name = "Stadium", Category = "Soccer",
+                        Price = 79500, Color = Colors.Red, InStock = true },
+                    new Product { Name = "Thinking Cap", Category = "Chess",
+                        Price = 16, Color = Colors.Blue, InStock = true },
+                    new Product { Name = "Unsteady Chair", Category = "Chess",
+                        Price = 29.95m, Color = Colors.Green, InStock = true },
+                    new Product { Name = "Human Chess Board", Category = "Chess",
+                        Price = 75, Color = Colors.Red, InStock = true },
+                    new Product { Name = "Bling-Bling King", Category = "Chess",
+                        Price = 1200, Color = Colors.Blue, InStock = true }};
+
+                Supplier s1 = new Supplier
+                {
+                    Name = "Surf Dudes",
+                    City = "San Jose",
+                    State = "CA"
+                };
+                Supplier s2 = new Supplier
+                {
+                    Name = "Chess Kings",
+                    City = "Seattle",
+                    State = "WA"
+                };
+
+                products.First().Supplier = s1;
+                foreach (Product p in products.Where(p => p.Category == "Chess"))
+                {
+                    p.Supplier = s2;
+                }
+                return products;
+            }
+        }
 
         private static Customer[] Customers = {
             new Customer { Name = "Alice Smith",

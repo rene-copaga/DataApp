@@ -9,7 +9,7 @@ namespace DataApp.Models
         IEnumerable<Product> GetAllProducts();
 
         IEnumerable<Product> GetFilteredProducts(string category = null,
-            decimal? price = null);
+            decimal? price = null, bool includeRelated = true);
 
         void CreateProduct(Product newProduct);
 

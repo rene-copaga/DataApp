@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,16 +18,16 @@ namespace DataApp.Models
 
         public Product GetProduct(long id)
         {
-            return context.Products.Find(id);
+            return context.Products.Include(p => p.Supplier).First(p => p.Id == id);
         }
         public IEnumerable<Product> GetAllProducts()
         {
             Console.WriteLine("GetAllProducts");
-            return context.Products;
+            return context.Products.Include(p => p.Supplier);
         }
 
         public IEnumerable<Product> GetFilteredProducts(string category = null,
-            decimal? price = null)
+            decimal? price = null, bool includeRelated = true)
         {
             IQueryable<Product> data = context.Products;
             if (category != null)
@@ -36,6 +37,10 @@ namespace DataApp.Models
             if (price != null)
             {
                 data = data.Where(p => p.Price >= price);
+            }
+            if (includeRelated)
+            {
+                data = data.Include(p => p.Supplier);
             }
             return data;
         }

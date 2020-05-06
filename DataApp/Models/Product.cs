@@ -13,5 +13,7 @@
         public decimal Price { get; set; }
         public Colors Color { get; set; }
         public bool InStock { get; set; }
+
+        public Supplier Supplier { get; set; }
     }
 }
