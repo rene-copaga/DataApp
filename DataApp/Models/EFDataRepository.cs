@@ -86,7 +86,12 @@ namespace DataApp.Models
 
         public void DeleteProduct(long id)
         {
-            context.Products.Remove(new Product { Id = id });
+            Product p = this.GetProduct(id);
+            context.Products.Remove(p);
+            if (p.Supplier != null)
+            {
+                context.Remove<Supplier>(p.Supplier);
+            }
             context.SaveChanges();
         }
     }
