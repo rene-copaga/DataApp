@@ -8,5 +8,6 @@ namespace DataApp.Models
             : base(opts) {}
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
     }
 }
