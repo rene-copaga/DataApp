@@ -28,8 +28,7 @@ namespace DataApp.Models
 
         public IEnumerable<Supplier> GetAll()
         {
-            context.Products.Where(p => p.Supplier != null && p.Price > 50).Load();
-            return context.Suppliers;
+            return context.Suppliers.Include(p => p.Products);
         }
 
         public void Create(Supplier newDataObject)
