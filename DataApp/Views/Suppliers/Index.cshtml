@@ -13,6 +13,8 @@
            class="btn btn-sm btn-warning">Edit</a>
         <a asp-action="Create" asp-route-id="@s.Id"
            class="btn btn-sm btn-danger">Add</a>
+        <a asp-action="Change" asp-route-id="@s.Id"
+           class="btn btn-sm btn-primary">Change</a>
     </h4>
     <div class="container-fluid">
         @if (s.Products == null || s.Products.Count() == 0)
@@ -22,6 +24,10 @@
         else if (ViewBag.SupplierEditId == s.Id)
         {
             @Html.Partial("Editor", s);
+        }
+        else if (ViewBag.SupplierRelationshipId == s.Id)
+        {
+            @Html.Partial("RelationshipEditor", (s, Model));
         }
         else
         {

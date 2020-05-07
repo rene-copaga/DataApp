@@ -1,5 +1,7 @@
 ﻿using DataApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DataApp.Controllers
 {
@@ -16,6 +18,7 @@ namespace DataApp.Controllers
         {
             ViewBag.SupplierEditId = TempData["SupplierEditId"];
             ViewBag.SupplierCreateId = TempData["SupplierCreateId"];
+            ViewBag.SupplierRelationshipId = TempData["SupplierRelationshipId"];
             return View(supplierRepository.GetAll());
         }
 
@@ -35,6 +38,36 @@ namespace DataApp.Controllers
         public IActionResult Create(long id)
         {
             TempData["SupplierCreateId"] = id;
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Change(long id)
+        {
+            TempData["SupplierRelationshipId"] = id;
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public IActionResult Change(Supplier supplier)
+        {
+            IEnumerable<Product> changed = supplier.Products
+                .Where(p => p.SupplierId != supplier.Id);
+            if (changed.Count() > 0)
+            {
+                IEnumerable<Supplier> allSuppliers
+                    = supplierRepository.GetAll().ToArray();
+                Supplier currentSupplier
+                    = allSuppliers.First(s => s.Id == supplier.Id);
+                foreach (Product p in changed)
+                {
+                    Supplier newSupplier
+                        = allSuppliers.First(s => s.Id == p.SupplierId);
+                    newSupplier.Products = newSupplier.Products
+                        .Append(currentSupplier.Products
+                        .First(op => op.Id == p.Id)).ToArray();
+                    supplierRepository.Update(newSupplier);
+                }
+            }
             return RedirectToAction(nameof(Index));
         }
     }
