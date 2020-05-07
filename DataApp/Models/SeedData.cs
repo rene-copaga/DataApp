@@ -62,11 +62,24 @@ namespace DataApp.Models
                     new Product { Name = "Bling-Bling King", Category = "Chess",
                         Price = 1200, Color = Colors.Blue, InStock = true }};
 
+                ContactLocation hq = new ContactLocation
+                {
+                    LocationName = "Corporate HQ",
+                    Address = "200 Acme Way"
+                };
+                ContactDetails bob = new ContactDetails
+                {
+                    Name = "Bob Smith",
+                    Phone = "555-107-1234",
+                    Location = hq
+                };
+
                 Supplier acme = new Supplier
                 {
                     Name = "Acme Co",
                     City = "New York",
-                    State = "NY"
+                    State = "NY",
+                    Contact = bob
                 };
                 Supplier s1 = new Supplier
                 {
