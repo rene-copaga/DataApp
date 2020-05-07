@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace DataApp.Models
 
         public IEnumerable<Supplier> GetAll()
         {
-            return context.Suppliers;
+            return context.Suppliers.Include(s => s.Products);
         }
 
         public void Create(Supplier newDataObject)
