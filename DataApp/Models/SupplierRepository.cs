@@ -28,15 +28,8 @@ namespace DataApp.Models
 
         public IEnumerable<Supplier> GetAll()
         {
-            IEnumerable<Supplier> data = context.Suppliers.ToArray();
-            foreach (Supplier s in data)
-            {
-                context.Entry(s).Collection(e => e.Products)
-                    .Query()
-                    .Where(p => p.Price > 50)
-                    .Load();
-            }
-            return data;
+            context.Products.Where(p => p.Supplier != null && p.Price > 50).Load();
+            return context.Suppliers;
         }
 
         public void Create(Supplier newDataObject)
