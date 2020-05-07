@@ -67,6 +67,9 @@ namespace DataApp.Models
             originalProduct.Name = changedProduct.Name;
             originalProduct.Category = changedProduct.Category;
             originalProduct.Price = changedProduct.Price;
+            originalProduct.Supplier.Name = changedProduct.Supplier.Name;
+            originalProduct.Supplier.City = changedProduct.Supplier.City;
+            originalProduct.Supplier.State = changedProduct.Supplier.State;
 
             EntityEntry entry = context.Entry(originalProduct);
             Console.WriteLine($"Entity State: {entry.State}");
