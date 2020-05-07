@@ -62,6 +62,12 @@ namespace DataApp.Models
                     new Product { Name = "Bling-Bling King", Category = "Chess",
                         Price = 1200, Color = Colors.Blue, InStock = true }};
 
+                Supplier acme = new Supplier
+                {
+                    Name = "Acme Co",
+                    City = "New York",
+                    State = "NY"
+                };
                 Supplier s1 = new Supplier
                 {
                     Name = "Surf Dudes",
@@ -75,10 +81,20 @@ namespace DataApp.Models
                     State = "WA"
                 };
 
-                products.First().Supplier = s1;
-                foreach (Product p in products.Where(p => p.Category == "Chess"))
+                foreach (Product p in products)
                 {
-                    p.Supplier = s2;
+                    if (p == products[0])
+                    {
+                        p.Supplier = s1;
+                    }
+                    else if (p.Category == "Chess")
+                    {
+                        p.Supplier = s2;
+                    }
+                    else
+                    {
+                        p.Supplier = acme;
+                    }
                 }
                 return products;
             }
