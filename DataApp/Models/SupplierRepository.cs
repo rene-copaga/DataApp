@@ -28,7 +28,15 @@ namespace DataApp.Models
 
         public IEnumerable<Supplier> GetAll()
         {
-            return context.Suppliers.Include(s => s.Products);
+            IEnumerable<Supplier> data = context.Suppliers.ToArray();
+            foreach (Supplier s in data)
+            {
+                context.Entry(s).Collection(e => e.Products)
+                    .Query()
+                    .Where(p => p.Price > 50)
+                    .Load();
+            }
+            return data;
         }
 
         public void Create(Supplier newDataObject)
