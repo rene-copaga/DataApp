@@ -52,28 +52,10 @@ namespace DataApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Change(Supplier supplier)
+        public IActionResult Change(long Id, Product[] products)
         {
-            IEnumerable<Product> changed 
-                = supplier.Products.Where(p => p.SupplierId != supplier.Id);
-            IEnumerable<long> targetSupplierIds
-                = changed.Select(p => p.SupplierId).Distinct();
-            if (changed.Count() > 0)
-            {
-                IEnumerable<Supplier> targetSuppliers = dbContext.Suppliers
-                    .Where(s => targetSupplierIds.Contains(s.Id))
-                    .AsNoTracking().ToArray();
-                foreach (Product p in changed)
-                {
-                    Supplier newSupplier
-                        = targetSuppliers.First(s => s.Id == p.SupplierId);
-                    newSupplier.Products = newSupplier.Products == null
-                        ? new Product[] { p }
-                        : newSupplier.Products.Append(p).ToArray();
-                }
-                dbContext.Suppliers.UpdateRange(targetSuppliers);
-                dbContext.SaveChanges();
-            }
+            dbContext.Products.UpdateRange(products.Where(p => p.SupplierId != Id));
+            dbContext.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
     }
