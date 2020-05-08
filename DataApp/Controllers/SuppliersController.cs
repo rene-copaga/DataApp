@@ -1,5 +1,6 @@
 ﻿using DataApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,10 +9,13 @@ namespace DataApp.Controllers
     public class SuppliersController : Controller
     {
         private ISupplierRepository supplierRepository;
+        private EFDatabaseContext dbContext;
 
-        public SuppliersController(ISupplierRepository supplierRepo)
+        public SuppliersController(ISupplierRepository supplierRepo,
+                EFDatabaseContext context)
         {
             supplierRepository = supplierRepo;
+            dbContext = context;
         }
 
         public IActionResult Index()
@@ -50,23 +54,25 @@ namespace DataApp.Controllers
         [HttpPost]
         public IActionResult Change(Supplier supplier)
         {
-            IEnumerable<Product> changed = supplier.Products
-                .Where(p => p.SupplierId != supplier.Id);
+            IEnumerable<Product> changed 
+                = supplier.Products.Where(p => p.SupplierId != supplier.Id);
+            IEnumerable<long> targetSupplierIds
+                = changed.Select(p => p.SupplierId).Distinct();
             if (changed.Count() > 0)
             {
-                IEnumerable<Supplier> allSuppliers
-                    = supplierRepository.GetAll().ToArray();
-                Supplier currentSupplier
-                    = allSuppliers.First(s => s.Id == supplier.Id);
+                IEnumerable<Supplier> targetSuppliers = dbContext.Suppliers
+                    .Where(s => targetSupplierIds.Contains(s.Id))
+                    .AsNoTracking().ToArray();
                 foreach (Product p in changed)
                 {
                     Supplier newSupplier
-                        = allSuppliers.First(s => s.Id == p.SupplierId);
-                    newSupplier.Products = newSupplier.Products
-                        .Append(currentSupplier.Products
-                        .First(op => op.Id == p.Id)).ToArray();
-                    supplierRepository.Update(newSupplier);
+                        = targetSuppliers.First(s => s.Id == p.SupplierId);
+                    newSupplier.Products = newSupplier.Products == null
+                        ? new Product[] { p }
+                        : newSupplier.Products.Append(p).ToArray();
                 }
+                dbContext.Suppliers.UpdateRange(targetSuppliers);
+                dbContext.SaveChanges();
             }
             return RedirectToAction(nameof(Index));
         }
